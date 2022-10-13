@@ -23,9 +23,9 @@ from transformers import AutoFeatureExtractor
 
 
 # load safety model
-safety_model_id = "CompVis/stable-diffusion-safety-checker"
-safety_feature_extractor = AutoFeatureExtractor.from_pretrained(safety_model_id)
-safety_checker = StableDiffusionSafetyChecker.from_pretrained(safety_model_id)
+safety_model_id = "CompVis/stable-diffusion-v-1-3"
+safety_feature_extractor = AutoFeatureExtractor.from_pretrained(safety_model_id, use_auth_token=True)
+safety_checker = StableDiffusionSafetyChecker.from_pretrained(safety_model_id, use_auth_token=True)
 
 
 def chunk(it, size):
@@ -308,7 +308,7 @@ def main():
 
                         x_checked_image, has_nsfw_concept = check_safety(x_samples_ddim)
 
-                        x_checked_image_torch = torch.from_numpy(x_checked_image).permute(0, 3, 1, 2)
+                        x_checked_image_torch = torch.from_numpy(x_checked_image).permute(0, 3, 2, 1)
 
                         if not opt.skip_save:
                             for x_sample in x_checked_image_torch:
